@@ -42,5 +42,6 @@ React (Vite) + Node (Express) ile geliştirilen, **gerçek zamanlı altın gram 
 * **Popularity rating**: Displayed on a **5-point scale** with **1 decimal**.
 * **Typography**: Heading **Avenir Book 45**, product name **Montserrat Medium 15**, price **Montserrat Regular 15**.
 
+link: https://product-listing-bxrv1p7mb-sumeyye-karakuss-projects.vercel.app/
 
 <img width="1916" height="936" alt="Ekran görüntüsü 2025-10-06 002044" src="https://github.com/user-attachments/assets/e9956cc8-a6d1-4612-9760-ec98f5b7beae" />
