@@ -14,7 +14,7 @@ router.get('/', async (req, res) => {
 
     const gold = await getGoldPriceUsdPerGram();
 
-    // Bonus filtreler: ?minPrice=&maxPrice=&minPopularity=&maxPopularity=
+    
     const {
       minPrice, maxPrice, minPopularity, maxPopularity
     } = req.query;

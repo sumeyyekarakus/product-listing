@@ -1,29 +1,29 @@
+
 import { useEffect, useState } from 'react';
 import { api } from './api/client';
-import ProductCard from './components/ProductCard';
+import ProductsCarousel from "./components/ProductCarousel"; 
 
 function App() {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(()=>{
-    (async ()=>{
-      try{
+  useEffect(() => {
+    (async () => {
+      try {
         const { data } = await api.get('/products');
         setItems(data.products || []);
       } finally {
         setLoading(false);
       }
     })();
-  },[]);
+  }, []);
 
   if (loading) return <div className="container">Loading…</div>;
 
   return (
     <div className="container">
-      <div className="grid">
-        {items.map(p => <ProductCard key={p.id} p={p} />)}
-      </div>
+      <h1 className="page-title">Product List</h1>
+      <ProductsCarousel items={items} />
     </div>
   );
 }

@@ -1,34 +1,29 @@
-import { useState, useMemo } from 'react';
-import Rating from './Rating';
+import { useMemo, useState } from 'react';
 import ColorPicker from './ColorPicker';
-import ProductCarousel from './ProductCarousel';
+import RatingStars from './RatingStars';
 
 export default function ProductCard({ p }) {
-  const initialColor = (p.colors && p.colors[0]) || 'yellow';
+  const colors = useMemo(() => Object.keys(p.images || {}), [p.images]);
+  const initialColor = colors[0] || 'yellow';
   const [color, setColor] = useState(initialColor);
-
-  const currentImage = useMemo(()=>{
-    // Eğer her renk için tek görsel varsa:
-    return p.images?.[color] || Object.values(p.images || {})[0];
-  }, [p, color]);
+  const currentImage = p.images?.[color] || Object.values(p.images || {})[0];
 
   return (
     <div className="card">
       <div className="media">
-        {/* Tek görsel gösterilecekse carousel yerine direkt img de olur */}
-        <ProductCarousel images={[currentImage]} />
+        <div className="media">
+          <div className="media-inner">
+            <img src={currentImage} alt={p.name} />
+          </div>
+        </div>
+
       </div>
 
       <div className="content">
         <h3 className="title">{p.name}</h3>
-        <div className="price ui">${p.priceUsd?.toFixed(2)}</div>
-        <Rating value={Number(p.rating5 || 0)} />
-
-        {p.colors?.length > 0 &&
-          <div style={{ marginTop: 8 }}>
-            <ColorPicker colors={p.colors} selected={color} onChange={setColor} />
-          </div>
-        }
+        <div className="price">${p.priceUsd?.toFixed(2)} USD</div>
+        <ColorPicker colors={colors} selected={color} onChange={setColor} />
+        <RatingStars value={Number(p.rating5 || 0)} />
       </div>
     </div>
   );

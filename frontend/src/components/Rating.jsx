@@ -1,4 +1,4 @@
 export default function Rating({ value }) {
-  // value: 0.0–5.0 (1 ondalık)
-  return <div aria-label={`Rating ${value}/5`}>{value.toFixed(1)} / 5 ★</div>;
+  const v = Number.isFinite(value) ? value.toFixed(1) : '0.0';
+  return <div className="meta">{v}/5 ★</div>;
 }

@@ -1,18 +1,39 @@
-// src/components/ProductCarousel.jsx
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation } from "swiper/modules";        // ✅ DOĞRU (v11)
-import "swiper/css";
-import "swiper/css/navigation";
 
-export default function ProductCarousel({ images }) {
-  const list = Array.isArray(images) ? images : Object.values(images || {});
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Scrollbar } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/scrollbar';
+import ProductCard from './ProductCard';
+
+export default function ProductsCarousel({ items=[] }) {
   return (
-    <Swiper modules={[Navigation]} navigation spaceBetween={8} slidesPerView={1}>
-      {list.map((src, i) => (
-        <SwiperSlide key={i}>
-          <img src={src} style={{ width: "100%", height: "auto" }} alt="" />
-        </SwiperSlide>
-      ))}
-    </Swiper>
+    <div className="products-swiper">
+      <button className="nav-btn nav-prev" aria-label="Previous">‹</button>
+      <button className="nav-btn nav-next" aria-label="Next">›</button>
+
+      <Swiper
+        modules={[Navigation, Scrollbar]}
+        navigation={{ prevEl: '.nav-prev', nextEl: '.nav-next' }}
+        scrollbar={{ draggable: true, hide: false }}
+        loop={false}
+        centeredSlides={false}
+        slidesPerView={4}
+        slidesPerGroup={1}
+        spaceBetween={20}                    
+        breakpoints={{
+          0:    { slidesPerView: 1, slidesPerGroup: 1, spaceBetween: 16 },
+          640:  { slidesPerView: 2, slidesPerGroup: 1, spaceBetween: 24 },
+          900:  { slidesPerView: 3, slidesPerGroup: 1, spaceBetween: 32 },
+          1200: { slidesPerView: 4, slidesPerGroup: 1, spaceBetween: 44 },
+        }}
+      >
+        {items.map(p => (
+          <SwiperSlide key={p.id}>
+            <ProductCard p={p} />
+          </SwiperSlide>
+        ))}
+      </Swiper>
+    </div>
   );
 }
