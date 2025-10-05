@@ -7,8 +7,8 @@ const app = express();
 app.use(express.json());
 
 
-app.use(cors());                  
-app.options('*', cors());         
+app.use(cors());
+app.options(/.*/, cors());  
 
 app.get('/api/health', (_req, res) => res.json({ ok: true }));
 app.use('/api/products', productsRoute);
