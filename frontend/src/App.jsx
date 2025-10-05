@@ -6,7 +6,7 @@ function App() {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  async function fetchProductsDirect() {
+  async function fetchDirect() {
     const r = await fetch('https://product-listing-opm7.onrender.com/api/products');
     const j = await r.json();
     const arr = Array.isArray(j) ? j : (j?.products || []);
@@ -24,8 +24,7 @@ function App() {
   useEffect(() => {
     (async () => {
       try {
-        
-        const { data } = await api.get('/products'); // → .../api/products
+        const { data } = await api.get('/products'); // -> .../api/products
         const arr = Array.isArray(data) ? data : (data?.products || []);
         const normalized = arr.map((p, i) => ({
           id: p.id ?? i,
@@ -36,14 +35,15 @@ function App() {
           rating5: p.rating5,
           priceUsd: p.priceUsd,
         }));
-        if (normalized.length === 0) throw new Error('Empty list');
+        if (normalized.length === 0) throw new Error('empty');
         setItems(normalized);
+        console.log('Fetched via env:', normalized.length);
       } catch (e) {
-        console.warn('API via env failed, trying direct URL…', e);
+        console.warn('Env BASE failed, trying direct URL…', e);
         try {
-          
-          const normalized = await fetchProductsDirect();
+          const normalized = await fetchDirect();
           setItems(normalized);
+          console.log('Fetched via direct URL:', normalized.length);
         } catch (err) {
           console.error('Direct fetch failed', err);
         }
@@ -54,13 +54,7 @@ function App() {
   }, []);
 
   if (loading) return <div className="container">Loading…</div>;
-  if (!items.length) {
-    return (
-      <div className="container">
-        No products fetched. Check VITE_API_URL and /api route.
-      </div>
-    );
-  }
+  if (!items.length) return <div className="container">No products fetched. Check API config.</div>;
 
   return (
     <div className="container">
